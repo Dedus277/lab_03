@@ -2,7 +2,7 @@ from dataclasses import  dataclass
 from datetime import date
 from .exceptions import InvalidEntityError
 
-allowed_categories = frozenset({"bus", "train", "troylleybus", "metro"})
+allowed_categories = frozenset({"bus", "train", "trolleybus", "metro"})
 min_year = 1800
 @dataclass(frozen=True)
 class Route:
@@ -36,7 +36,7 @@ class Route:
             )
         if not is_number(self.length_km) or self.length_km <= 0:
             raise InvalidEntityError(
-            f"Длина маршрута {self.lenght_km} должна быть положительным числом."
+            f"Длина маршрута {self.length_km} должна быть положительным числом."
             )
 def is_int(value) -> bool:
     return isinstance(value, int) and not isinstance(value, bool)
