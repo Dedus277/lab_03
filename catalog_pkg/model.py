@@ -2,7 +2,7 @@ from dataclasses import  dataclass
 from datetime import date
 from .exceptions import InvalidEntityError
 
-allowed_categories = frozenset({"bus", "train", "troylдeybus", "metro"})
+allowed_categories = frozenset({"bus", "train", "troylleybus", "metro"})
 min_year = 1800
 @dataclass(frozen=True)
 class Route:
