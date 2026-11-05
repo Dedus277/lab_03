@@ -6,13 +6,13 @@ allowed_categories = frozenset({"bus", "train", "troylleybus", "metro"})
 min_year = 1800
 @dataclass(frozen=True)
 class Route:
-    """Транспротный маршрут Неверный объект создать нельязя."""
+    """Транспортный маршрут. Неверный объект создать нельзя."""
 
     id: str
     name: str
     category: str
     year: int
-    lenght_km: float
+    length_km: float
     stop_count: int
 
     def __post_init__(self):
@@ -34,7 +34,7 @@ class Route:
             raise InvalidEntityError(
                 f"Количество остановок {self.stop_count} должно быть целым числом больше 1."
             )
-        if not is_number(self.lenght_km) or self.lenght_km <= 0:
+        if not is_number(self.length_km) or self.length_km <= 0:
             raise InvalidEntityError(
             f"Длина маршрута {self.lenght_km} должна быть положительным числом."
             )
