@@ -1,0 +1,10 @@
+﻿__pycache__/
+*.pyc
+.pytest_cache/
+.vscode/
+.idea/
+venv/
+.venv/
+test_tmp_catalog.json
+task (3).md
+grading (3).md
