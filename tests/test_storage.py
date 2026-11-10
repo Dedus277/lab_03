@@ -5,7 +5,7 @@ import unittest
 from catalog_pkg.catalog import Catalog
 from catalog_pkg.exceptions import CorruptedFileError, UnsupportedVersionError
 from catalog_pkg.model import Route
-from catalog_pkg.storage import load, save
+from catalog_pkg.storage import FORMAT_VERSION, load, save
 
 FILE = "test_tmp_catalog.json"
 
@@ -34,7 +34,7 @@ class TestStorage(unittest.TestCase):
         save(self.catalog, FILE)
         with open(FILE, encoding="utf-8") as f:
             data = json.load(f)
-        self.assertEqual(data["format_version"], 1)
+        self.assertEqual(data["format_version"], FORMAT_VERSION)
 
     def test_broken_json(self):
         # Пишем в файл текст, который не является JSON
@@ -44,7 +44,7 @@ class TestStorage(unittest.TestCase):
             load(self.catalog, FILE)
 
     def test_unknown_version(self):
-        data = {"format_version": 99, "items": []}
+        data = {"format_version": FORMAT_VERSION + 1, "items": []}
         with open(FILE, "w", encoding="utf-8") as f:
             json.dump(data, f)
         with self.assertRaises(UnsupportedVersionError):
@@ -53,7 +53,7 @@ class TestStorage(unittest.TestCase):
     def test_bad_record_keeps_catalog(self):
         # В файле три записи, средняя с годом 2999 (невалидный)
         data = {
-            "format_version": 1,
+            "format_version": FORMAT_VERSION,
             "items": [
                 {"id": "a", "name": "А", "category": "bus",
                  "year": 1990, "length_km": 5.0, "stop_count": 4},
@@ -78,7 +78,7 @@ class TestStorage(unittest.TestCase):
     def test_missing_field_keeps_catalog(self):
         # У записи нет поля name
         data = {
-            "format_version": 1,
+            "format_version": FORMAT_VERSION,
             "items": [
                 {"id": "a", "category": "bus",
                  "year": 1990, "length_km": 5.0, "stop_count": 4},
@@ -95,7 +95,7 @@ class TestStorage(unittest.TestCase):
         # В файле две записи с одним ID
         record = {"id": "a", "name": "А", "category": "bus",
                   "year": 1990, "length_km": 5.0, "stop_count": 4}
-        data = {"format_version": 1, "items": [record, record]}
+        data = {"format_version": FORMAT_VERSION, "items": [record, record]}
         with open(FILE, "w", encoding="utf-8") as f:
             json.dump(data, f)
 
